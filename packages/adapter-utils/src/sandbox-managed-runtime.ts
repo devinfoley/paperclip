@@ -408,9 +408,10 @@ export async function prepareSandboxManagedRuntime(input: {
   });
 
   await withTempDir("paperclip-sandbox-sync-", async (tempDir) => {
+    // Only the non-git cleanup path uses preservedNames. The git path protects
+    // .git by extracting a prepared git workspace and then overlaying files.
     const preservedNames = new Set([
       ".paperclip-runtime",
-      ...(gitSnapshot ? [".git"] : []),
       ...(input.preserveAbsentOnRestore ?? []),
     ]);
     if (gitSnapshot) {

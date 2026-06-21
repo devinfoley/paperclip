@@ -106,6 +106,8 @@ export async function readGitWorkspaceSnapshot(localDir: string): Promise<GitWor
         .sort((left, right) => left.localeCompare(right)),
     };
   } catch {
+    // Git failures, unsupported workspaces, or an oversized status output all
+    // produce a null snapshot so callers can fall back to full workspace upload.
     return null;
   }
 }
